@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <title>Урок "Асинхронность"</title>
-    
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
@@ -48,13 +48,13 @@
     const renderTasks = () => {
         const tasksHtml = tasks
             .map((task) => {
-                return '
-                    < li class="task" >
+                return `
+                    <li class="task">
                         <p class="task-text">
                             ${task.text}
                             <button data-id="${task.id}" class="button delete-button">Удалить</button>
                         </p>
-          </li > ';
+          </li >`;
         })
         .join("");
 
