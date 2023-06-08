@@ -30,7 +30,7 @@
     const textInputElement = document.getElementById("text-input");
 
     const hosts = 'https://wedev-api.sky.pro/api/v2/todos'
-    const password = prompt('Введите пароль')
+    let password = prompt('Введите пароль')
 
     let tasks = [];
 
@@ -46,7 +46,7 @@
                 if (response.status === 401) {
                     password = prompt('Введите верный пароль');
                     fetchTodosAndRender();
-                    throw new Error('неверный пароль')
+                    throw new Error('неверный пароль');
                 }
                 return response.json();
             })
