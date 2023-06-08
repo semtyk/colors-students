@@ -29,20 +29,45 @@
     const listElement = document.getElementById("list");
     const textInputElement = document.getElementById("text-input");
 
+    const hosts = 'https://wedev-api.sky.pro/api/v2/todos'
+    const password = prompt('Введите пароль')
 
     let tasks = [];
 
     const fetchTodosAndRender = () => {
-        return fetch("https://webdev-hw-api.vercel.app/api/todos", {
+        
+        return fetch(hosts, {
             method: "GET",
+            headers: {
+                Authorization: password,
+            },
         })
             .then((response) => {
+                if (response.status === 401) {
+                    password = prompt('Введите верный пароль');
+                    fetchTodosAndRender();
+                    throw new Error('неверный пароль')
+                }
                 return response.json();
             })
             .then((responseData) => {
                 tasks = responseData.todos;
                 renderTasks();
             });
+            // .catch((error) => {
+            //     switch (error.message) {
+                    
+            //         case 'неверный пароль':
+            //             //alert('Сервер сломался, попробуй позже');
+            //             //console.log('Сервер сломался, попробуй позже');
+            //             password = prompt('Введите верный пароль');
+            //             fetchTodosAndRender();
+                        
+            //             break;
+            //         default:
+            //             break;
+            //     }
+            // });
     };
 
     const renderTasks = () => {
@@ -68,8 +93,11 @@
             const id = deleteButton.dataset.id;
 
             // Подписываемся на успешное завершение запроса с помощью then
-            fetch("https://webdev-hw-api.vercel.app/api/todos/" + id, {
+            fetch(hosts+'/' + id, {
                 method: "DELETE",
+                headers: {
+                    Authorization: password,
+                },
             })
                 .then((response) => {
                     return response.json();
@@ -96,11 +124,14 @@
         buttonElement.textContent = "Задача добавляется...";
 
         // Подписываемся на успешное завершение запроса с помощью then
-        fetch("https://webdev-hw-api.vercel.app/api/todos", {
+        fetch(hosts, {
             method: "POST",
             body: JSON.stringify({
                 text: textInputElement.value,
             }),
+            headers: {
+                Authorization: password,
+            },
         })
             .then((response) => {
                 return response.json();
