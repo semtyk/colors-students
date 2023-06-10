@@ -29,8 +29,8 @@
     const listElement = document.getElementById("list");
     const textInputElement = document.getElementById("text-input");
 
-    const hosts = 'https://wedev-api.sky.pro/api/v2/todos'
-    let password = prompt('Введите пароль')
+    const hosts = 'https://wedev-api.sky.pro/api/v2/todos';
+    let token = 'Bearer ksdfsksdfjfsdjk';
 
     let tasks = [];
 
@@ -39,13 +39,13 @@
         return fetch(hosts, {
             method: "GET",
             headers: {
-                Authorization: password,
+                Authorization: token,
             },
         })
             .then((response) => {
                 if (response.status === 401) {
-                    password = prompt('Введите верный пароль');
-                    fetchTodosAndRender();
+                    //token = prompt('Введите верный пароль');
+                    //fetchTodosAndRender();
                     throw new Error('неверный пароль');
                 }
                 return response.json();
@@ -53,21 +53,21 @@
             .then((responseData) => {
                 tasks = responseData.todos;
                 renderTasks();
-            });
-            // .catch((error) => {
-            //     switch (error.message) {
+            })
+            .catch((error) => {
+                switch (error.message) {
                     
-            //         case 'неверный пароль':
-            //             //alert('Сервер сломался, попробуй позже');
-            //             //console.log('Сервер сломался, попробуй позже');
-            //             password = prompt('Введите верный пароль');
-            //             fetchTodosAndRender();
+                    case 'неверный пароль':
+                        //alert('Сервер сломался, попробуй позже');
+                        console.log('Сервер сломался, попробуй позже');
+                        // password = prompt('Введите верный пароль');
+                        // fetchTodosAndRender();
                         
-            //             break;
-            //         default:
-            //             break;
-            //     }
-            // });
+                        break;
+                    default:
+                        break;
+                }
+            });
     };
 
     const renderTasks = () => {
@@ -96,7 +96,7 @@
             fetch(hosts+'/' + id, {
                 method: "DELETE",
                 headers: {
-                    Authorization: password,
+                    Authorization: token,
                 },
             })
                 .then((response) => {
@@ -130,7 +130,7 @@
                 text: textInputElement.value,
             }),
             headers: {
-                Authorization: password,
+                Authorization: token,
             },
         })
             .then((response) => {
