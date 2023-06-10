@@ -1,7 +1,7 @@
 import { deleteTodos, getTodos, postTodos } from "./api.js";
 import { renderLoginComponents } from "./components/login-components.js";
 
-let token = 'Bearer asb4c4boc86gasb4c4boc86g37w3cc3bo3b83k4g37k3bk3cg3c03ck4k';
+let token;
 token = null;
 
 let tasks = [];
@@ -42,7 +42,7 @@ const renderApp = () => {
             return `
                     <li class="task">
                         <p class="task-text">
-                            ${task.text}
+                            ${task.text} Создал: ${task.user?.name ?? 'Неизвестно'} 
                             <button data-id="${task.id}" class="button delete-button">Удалить</button>
                         </p>
           </li >`;
