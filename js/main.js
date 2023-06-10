@@ -1,4 +1,5 @@
 import { deleteTodos, getTodos, postTodos } from "./api.js";
+import { renderLoginComponents } from "./components/login-components.js";
 
 let token = 'Bearer asb4c4boc86gasb4c4boc86g37w3cc3bo3b83k4g37k3bk3cg3c03ck4k';
 token = null;
@@ -30,24 +31,9 @@ const fetchTodosAndRender = () => {
 const renderApp = () => {
     const appElement = document.getElementById('app');
     if (!token) {
-        const appHtml = `
-        <h1>Список задач</h1>
-            <div class="form">
-                <h3 class="form-title">Форма входа</h3>
-                <div class="form-row">
-                    Логин
-                    <input type="text" id="login-input" class="input"/>
-                    Пароль
-                    <input type="text" id="password-input" class="input" />
-                </div>
-                <br />
-                <button class="button" id="login-button">Войти</button>
-            </div>`;
-        appElement.innerHTML = appHtml;
-        document.getElementById('login-button').addEventListener('click', () => {
-            token = 'Bearer asb4c4boc86gasb4c4boc86g37w3cc3bo3b83k4g37k3bk3cg3c03ck4k';
-            fetchTodosAndRender();
-        })
+        renderLoginComponents(appElement, (newToken) => {
+            token = newToken;
+        }, fetchTodosAndRender);
         return;
     }
 
@@ -136,5 +122,4 @@ const renderApp = () => {
 
 };
 
-//fetchTodosAndRender();
 renderApp();
