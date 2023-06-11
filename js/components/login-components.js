@@ -1,4 +1,4 @@
-import { loginUser } from "../api.js";
+import { loginUser, regUser } from "../api.js";
 
 export function renderLoginComponents(appElement, setToken, fetchTodosAndRender) {
     let isLoginMode = true;
@@ -26,24 +26,52 @@ export function renderLoginComponents(appElement, setToken, fetchTodosAndRender)
         appElement.innerHTML = appHtml;
 
         document.getElementById('login-button').addEventListener('click', () => {
-            const login = document.getElementById('login-input').value;
-            const password = document.getElementById('password-input').value;
-            if (!login) {
-                alert('Введите логин');
-                return;
+            if (isLoginMode) {
+                const login = document.getElementById('login-input').value;
+                const password = document.getElementById('password-input').value;
+                if (!login) {
+                    alert('Введите логин');
+                    return;
+                }
+                if (!password) {
+                    alert('Введите пароль');
+                    return;
+                }
+                loginUser({ login, password })
+                    .then((user) => {
+                        setToken(`Bearer ${user.user.token}`);
+                        fetchTodosAndRender();
+                    })
+                    .catch((error) => {
+                        alert(error.message);
+                    })
+            } else {
+                const login = document.getElementById('login-input').value;
+                const name = document.getElementById('name-input').value;
+                const password = document.getElementById('password-input').value;
+                if (!login) {
+                    alert('Введите логин');
+                    return;
+                }
+                if (!password) {
+                    alert('Введите пароль');
+                    return;
+                }
+                if (!name) {
+                    alert('Введите имя');
+                    return;
+                }
+                regUser({ login, password, name })
+                    .then((user) => {
+                        setToken(`Bearer ${user.user.token}`);
+                        fetchTodosAndRender();
+                    })
+                    .catch((error) => {
+                        alert(error.message);
+                    })
             }
-            if (!password) {
-                alert('Введите пароль');
-                return;
-            }
-            loginUser({ login, password })
-                .then((user) => {
-                    setToken(`Bearer ${user.user.token}`);
-                    fetchTodosAndRender();
-                })
-                .catch((error) => {
-                    alert(error.message);
-                })
+
+            
         })
 
         document.getElementById('toggle-button').addEventListener('click', () => {
@@ -54,5 +82,5 @@ export function renderLoginComponents(appElement, setToken, fetchTodosAndRender)
 
     renderForm();
 
-    
+
 }
