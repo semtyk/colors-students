@@ -40,7 +40,7 @@ const renderApp = () => {
 
     const tasksHtml = tasks
         .map((task) => {
-            const createDate = format(new Date(task.created_at), 'MM/dd/yyyy hh:mm');
+            const createDate = format(new Date(task.created_at), 'yyyy/dd/MM hh:mm');
             return `
                     <li class="task">
                         <p class="task-text">
