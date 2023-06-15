@@ -1,5 +1,6 @@
 import { deleteTodos, getTodos, postTodos } from "./api.js";
 import { renderLoginComponents } from "./components/login-components.js";
+import { format } from "date-fns";
 
 let token;
 token = null;
@@ -39,11 +40,13 @@ const renderApp = () => {
 
     const tasksHtml = tasks
         .map((task) => {
+            const createDate = format(new Date(task.created_at), 'MM/dd/yyyy hh:mm');
             return `
                     <li class="task">
                         <p class="task-text">
                             ${task.text} Создал: ${task.user?.name ?? 'Неизвестно'} 
                             <button data-id="${task.id}" class="button delete-button">Удалить</button>
+                            <p><i>Задача создана: ${createDate}</i></p>
                         </p>
           </li >`;
         })
