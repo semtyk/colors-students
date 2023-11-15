@@ -63,7 +63,7 @@ const renderApp = () => {
             <div class="form">
                 <h3 class="form-title">Форма добавления</h3>
                 <div class="form-row">
-                    Что нужно сделать:
+                    Что необходимо сделать:
                     <input type="text" id="text-input" class="input" placeholder="Выпить кофе" />
                 </div>
                 <br />
